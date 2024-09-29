@@ -1,19 +1,32 @@
 ﻿import React from "react";
-const TextAreaInput = (props) => {
+import PropTypes from 'prop-types';
+
+const TextAreaInput = ({ text, placeholder, onTextChanged, hasError }) => {
   const handleChange = e => {
-    props.onTextChanged(e.target.value);
+    onTextChanged(e.target.value);
   };
 
   return (
-    <div style={{ display: 'inline' }}><strong>{props.preText}&nbsp;</strong>
+    <div style={{ display: 'inline' }}>
       <textarea
-        style={{ textAlign: "center" }}
-        value={props.text}
-        placeholder={props.placeholder}
+        style={{
+          textAlign: "center",
+          border: hasError ? '2px solid red' : '1px solid black', // Conditional styling based on error state
+          backgroundColor: hasError ? '#ffe6e6' : 'white' // Optional: change background color on error
+        }}
+        value={text}
+        placeholder={placeholder}
         onChange={handleChange}>
       </textarea>
     </div>
   );
-}
+};
 
-export default TextAreaInput
+TextAreaInput.propTypes = {
+  text: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  onTextChanged: PropTypes.func.isRequired,
+  hasError: PropTypes.bool // Prop to indicate if there's an error
+};
+
+export default TextAreaInput;

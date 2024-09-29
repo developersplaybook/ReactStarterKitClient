@@ -7,7 +7,17 @@ import { faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import TextAreaInput from '../common/TextAreaInput';
 import { useGlobalState, useSessionUser } from '../GlobalStateContext';
 
-const AlbumFrame = ({ AlbumID, Caption, PhotoCount, ItemCount, handleDelete, handleUpdate, handleAdd }) => {
+const AlbumFrame = ({
+  AlbumID,
+  Caption,
+  PhotoCount,
+  ItemCount,
+  handleDelete,
+  handleUpdate,
+  handleAdd,
+  hasError, // Error state for the specific album
+  onCaptionChange, // Function to handle caption change
+}) => {
   const [caption, setCaption] = useState(Caption);
   const {isAuthorized} = useSessionUser();
 
@@ -18,13 +28,26 @@ const AlbumFrame = ({ AlbumID, Caption, PhotoCount, ItemCount, handleDelete, han
   const { apiAddress } = useGlobalState();
   const AlbumImageUrl = `${apiAddress}/RandomHandler/Index/AlbumID=${AlbumID}/Size=M?timestamp=${Date.now()}`;
   
+  const handleAddAlbum = () => {
+    handleAdd(caption); // Use the prop function to handle add
+  };
+
+  const handleUpdateAlbum = () => {
+    handleUpdate(caption); // Use the prop function to handle update
+  };
+
+  const handleCaptionChangeInternal = (value) => {
+    setCaption(value);
+    onCaptionChange(value); // Call the function passed as a prop to reset the error state
+  };
+
   return (
     <td className="item">
       {isUpdateOldAlbum ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black' }}>
           <FontAwesomeIcon
             icon={faSave}
-            onClick={() => !isDisabledForAddAndUpdate && handleUpdate(AlbumID, caption)}
+            onClick={() => !isDisabledForAddAndUpdate && handleUpdateAlbum()}
             style={{
               fontSize: '2em',
               margin: '0 50px 0 80px',
@@ -48,7 +71,7 @@ const AlbumFrame = ({ AlbumID, Caption, PhotoCount, ItemCount, handleDelete, han
         <div style={{ alignItems: 'center', color: 'black' }}>
           <FontAwesomeIcon
             icon={faSave}
-            onClick={() => !isDisabledForAddAndUpdate && handleAdd(caption)}
+            onClick={() => !isDisabledForAddAndUpdate && handleAddAlbum()}
             style={{
               fontSize: '2em',
               margin: '0 50px 0 100px',
@@ -125,7 +148,14 @@ const AlbumFrame = ({ AlbumID, Caption, PhotoCount, ItemCount, handleDelete, han
       </table>
       {isUpdateOldAlbum ? (
         <h4>
-          <div style={{ color: 'rgb(152, 0, 0)' }}><TextAreaInput text={caption} placeholder="Enter caption" onTextChanged={(value) => setCaption(value)} /></div>
+          <div style={{ color: 'rgb(152, 0, 0)' }}>
+            <TextAreaInput 
+              text={caption} 
+              placeholder="Enter caption" 
+              onTextChanged={handleCaptionChangeInternal} 
+              hasError={hasError}
+            />
+          </div>
         </h4>
       ) : (
         <h4>
@@ -134,7 +164,14 @@ const AlbumFrame = ({ AlbumID, Caption, PhotoCount, ItemCount, handleDelete, han
       )}
       {isAddNewAlbum ? (
         <h4>
-          <div style={{ color: 'rgb(152, 0, 0)' }}><TextAreaInput text={caption} placeholder="Enter caption" onTextChanged={(value) => setCaption(value)} /></div>
+          <div style={{ color: 'rgb(152, 0, 0)' }}>
+            <TextAreaInput 
+              text={caption} 
+              placeholder="Enter caption" 
+              onTextChanged={handleCaptionChangeInternal} 
+              hasError={hasError}
+            />
+          </div>
         </h4>
       ) : null}
       <div>{PhotoCount} images</div>
@@ -150,6 +187,8 @@ AlbumFrame.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   handleUpdate: PropTypes.func.isRequired,
   handleAdd: PropTypes.func.isRequired,
+  hasError: PropTypes.bool, // Prop to indicate error state for the album input
+  onCaptionChange: PropTypes.func, // Prop to handle caption change
 };
 
 export default AlbumFrame;

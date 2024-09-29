@@ -12,6 +12,37 @@ const Albums = () => {
   const history = useNavigate();
   const {isAuthorized, token} = useSessionUser();
   const { loading, setLoading } = useLoading();
+  const [errorStates, setErrorStates] = useState({}); // Object to manage error state for each album
+
+  const handleAddAlbum = async (albumID, caption) => {
+    try {
+      setErrorStates((prev) => ({ ...prev, [albumID]: false }));
+
+      // Call the handleAdd function passed as a prop
+      await handleAdd(albumID, caption);
+
+    } catch (error) {
+      // If there's an error, set error state for the caption
+      setErrorStates((prev) => ({ ...prev, [albumID]: true }));
+    }
+  };
+
+  const handleUpdateAlbum = async (albumID, caption) => {
+    try {
+      setErrorStates((prev) => ({ ...prev, [albumID]: false }));
+
+      // Call the handleAdd function passed as a prop
+      await handleUpdate(albumID, caption);
+
+    } catch (error) {
+      // If there's an error, set error state for the caption
+      setErrorStates((prev) => ({ ...prev, [albumID]: true }));
+    }
+  };
+
+  const handleCaptionChange = (albumID) => {
+    setErrorStates((prev) => ({ ...prev, [albumID]: false }));
+  };
 
   useEffect(() => {
     history('/albums');
@@ -19,7 +50,17 @@ const Albums = () => {
 
   useEffect(() => {
     getAlbumsWithPhotoCount('api/albums');
+    initializeErrorStates(albums);
   }, [isAuthorized]);
+
+  // Function to initialize errorStates based on fetched albums
+  const initializeErrorStates = (albums) => {
+    const initialErrorStates = {};
+    albums.forEach(album => {
+      initialErrorStates[album.albumID] = false;
+    });
+    setErrorStates(initialErrorStates);
+  };
 
   const noEmptyAlbumsExists = (albums) => {
     return albums.every(album => album.photoCount > 0);
@@ -28,7 +69,7 @@ const Albums = () => {
   const getAlbumsWithPhotoCount = async (url) => {
     setLoading(true);
     try {
-      const response = await apiClient.getHelper(url);
+      const response = await apiClient.getHelper(url, token);
       setAlbums([...response]);
 
       // Check if no empty albums exist after setting the state
@@ -52,21 +93,48 @@ const Albums = () => {
       const emptyAlbum = { albumID: 0, photoCount: 0, caption: '', isPublic: true };
       setAlbums(prevAlbums => [...prevAlbums, emptyAlbum]);
     }
+
+    setErrorStates((prev) => {
+      const updatedErrorStates = { ...prev };
+      delete updatedErrorStates[albumId];
+      return updatedErrorStates;
+    });
+
     setLoading(false);
   };
 
   const handleUpdate = async (albumId, newCaption) => {
     setLoading(true);
-    await apiClient.putHelper(`/api/albums/Update/${albumId}`, newCaption, token);
-    setAlbums(albums.map(album => album.albumID === albumId ? { ...album, caption: newCaption } : album));
-    setLoading(false);
+    try {
+      await apiClient.putHelper(`/api/albums/Update/${albumId}`, newCaption, token);
+      setAlbums(albums.map(album => album.albumID === albumId ? { ...album, caption: newCaption } : album));
+      setErrorStates((prev) => ({ ...prev, [albumId]: false }));
+    } catch (error) {
+      console.error("Failed to update album:", error);
+
+      // If there's an error, set the error state for the caption
+      setErrorStates((prev) => ({ ...prev, [albumId]: true }));
+      throw error; // Re-throw the error to be handled in handleAddAlbum
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAdd = async (caption) => {
+  const handleAdd = async (albumId, caption) => {
     setLoading(true);
-    const newAlbum = await apiClient.postHelper(`/api/albums/add`, caption, token);
-    setAlbums([...albums.filter(album => album.albumID !== 0), newAlbum]);
-    setLoading(false);
+    try {
+      const newAlbum = await apiClient.postHelper(`/api/albums/add`, caption, token);
+      setAlbums([...albums.filter(album => album.albumID !== 0), newAlbum]);
+      setErrorStates((prev) => ({ ...prev, [newAlbum.albumID]: false }));
+    } catch (error) {
+      console.error("Failed to add album:", error);
+
+      // If there's an error, set the error state for the caption
+      setErrorStates((prev) => ({ ...prev, [albumId]: true }));
+      throw error; // Re-throw the error to be handled in handleAddAlbum
+    } finally {
+      setLoading(false);
+    }
   };
 
   const rows = [];
@@ -80,8 +148,10 @@ const Albums = () => {
           IsPublic={albums[i].isPublic}
           ItemCount={i}
           handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-          handleAdd={handleAdd}
+          handleUpdate={(caption) => handleUpdateAlbum(albums[i].albumID, caption)}
+          handleAdd={(caption) => handleAddAlbum(albums[i].albumID, caption)} // Pass the function to handle add
+          hasError={!!errorStates[albums[i].albumID]} // Check error state for each caption
+          onCaptionChange={() => { handleCaptionChange(albums[i].albumID) }} // Function to handle caption change
         />
         {albums[i + 1] && (
           <AlbumFrame
@@ -91,8 +161,10 @@ const Albums = () => {
             IsPublic={albums[i + 1].isPublic}
             ItemCount={i + 1}
             handleDelete={handleDelete}
-            handleUpdate={handleUpdate}
-            handleAdd={handleAdd}
+            handleUpdate={(caption) => handleUpdateAlbum(albums[i + 1].albumID, caption)}
+            handleAdd={(caption) => handleAddAlbum(albums[i + 1].albumID, caption)} // Pass the function to handle add
+            hasError={!!errorStates[albums[i + 1].albumID]} // Check error state for each caption
+            onCaptionChange={() => { handleCaptionChange(albums[i + 1].albumID) }} // Function to handle caption change
           />
         )}
       </tr>
