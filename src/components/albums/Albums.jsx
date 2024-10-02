@@ -14,36 +14,6 @@ const Albums = () => {
   const { loading, setLoading } = useLoading();
   const [errorStates, setErrorStates] = useState({}); // Object to manage error state for each album
 
-  const handleAddAlbum = async (albumID, caption) => {
-    try {
-      setErrorStates((prev) => ({ ...prev, [albumID]: false }));
-
-      // Call the handleAdd function passed as a prop
-      await handleAdd(albumID, caption);
-
-    } catch (error) {
-      // If there's an error, set error state for the caption
-      setErrorStates((prev) => ({ ...prev, [albumID]: true }));
-    }
-  };
-
-  const handleUpdateAlbum = async (albumID, caption) => {
-    try {
-      setErrorStates((prev) => ({ ...prev, [albumID]: false }));
-
-      // Call the handleAdd function passed as a prop
-      await handleUpdate(albumID, caption);
-
-    } catch (error) {
-      // If there's an error, set error state for the caption
-      setErrorStates((prev) => ({ ...prev, [albumID]: true }));
-    }
-  };
-
-  const handleCaptionChange = (albumID) => {
-    setErrorStates((prev) => ({ ...prev, [albumID]: false }));
-  };
-
   useEffect(() => {
     history('/albums');
   }, [history]);
@@ -137,6 +107,12 @@ const Albums = () => {
     }
   };
 
+  
+  const handleCaptionChange = (albumID) => {
+    setErrorStates((prev) => ({ ...prev, [albumID]: false }));
+  };
+
+
   const rows = [];
   for (let i = 0; i < albums.length; i += 2) {
     rows.push(
@@ -147,9 +123,9 @@ const Albums = () => {
           Caption={albums[i].caption}
           IsPublic={albums[i].isPublic}
           ItemCount={i}
-          handleDelete={handleDelete}
-          handleUpdate={(caption) => handleUpdateAlbum(albums[i].albumID, caption)}
-          handleAdd={(caption) => handleAddAlbum(albums[i].albumID, caption)} // Pass the function to handle add
+          handleDelete={() => handleDelete(albums[i].albumID)}
+          handleUpdate={(caption) => handleUpdate(albums[i].albumID, caption)}
+          handleAdd={(caption) => handleAdd(albums[i].albumID, caption)} // Pass the function to handle add
           hasError={!!errorStates[albums[i].albumID]} // Check error state for each caption
           onCaptionChange={() => { handleCaptionChange(albums[i].albumID) }} // Function to handle caption change
         />
@@ -160,9 +136,9 @@ const Albums = () => {
             Caption={albums[i + 1].caption}
             IsPublic={albums[i + 1].isPublic}
             ItemCount={i + 1}
-            handleDelete={handleDelete}
-            handleUpdate={(caption) => handleUpdateAlbum(albums[i + 1].albumID, caption)}
-            handleAdd={(caption) => handleAddAlbum(albums[i + 1].albumID, caption)} // Pass the function to handle add
+            handleDelete={() => handleDelete(albums[i + 1].albumID)}
+            handleUpdate={(caption) => handleUpdate(albums[i + 1].albumID, caption)}
+            handleAdd={(caption) => handleAdd(albums[i + 1].albumID, caption)} // Pass the function to handle add
             hasError={!!errorStates[albums[i + 1].albumID]} // Check error state for each caption
             onCaptionChange={() => { handleCaptionChange(albums[i + 1].albumID) }} // Function to handle caption change
           />

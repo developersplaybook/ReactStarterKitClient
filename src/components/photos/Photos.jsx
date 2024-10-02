@@ -24,6 +24,10 @@ const Photos = () => {
   const { apiAddress } = useGlobalState();
   const { isAuthorized, token } = useSessionUser();
 
+  const imageUrl = (photo) => {
+    return `${apiAddress}/RandomHandler/Index/PhotoID=${photo.photoID}/Size=M`;
+  };
+
   useEffect(() => {
     const fetchPhotos = async () => {
       setStatus('loading');
@@ -103,7 +107,7 @@ const Photos = () => {
         <PhotoFrame>
           <Animate delaySeconds={index / 24} play {...propsAnimate}>
             <Link to={`/photodetails/${photo.photoID}/${albumId}`}>
-              <img src={`${apiAddress}/RandomHandler/Index/PhotoID=${photo.photoID}/Size=M`} alt="" style={{ border: '4px solid white' }} />
+              <img src={imageUrl(photo)} alt="" style={{ border: '4px solid white' }} />
             </Link>
           </Animate>
         </PhotoFrame>

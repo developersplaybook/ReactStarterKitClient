@@ -57,7 +57,7 @@ const AlbumFrame = ({
           />
           <FontAwesomeIcon
             icon={faTrash}
-            onClick={() => !isDisabledForDelete && handleDelete(AlbumID)}
+            onClick={() => !isDisabledForDelete && handleDelete()}
             style={{
               fontSize: '2em',
               margin: '0 150px 0 30px',
