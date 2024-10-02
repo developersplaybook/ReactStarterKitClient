@@ -84,7 +84,6 @@ const Albums = () => {
 
       // If there's an error, set the error state for the caption
       setErrorStates((prev) => ({ ...prev, [albumId]: true }));
-      throw error; // Re-throw the error to be handled in handleAddAlbum
     } finally {
       setLoading(false);
     }
@@ -101,7 +100,6 @@ const Albums = () => {
 
       // If there's an error, set the error state for the caption
       setErrorStates((prev) => ({ ...prev, [albumId]: true }));
-      throw error; // Re-throw the error to be handled in handleAddAlbum
     } finally {
       setLoading(false);
     }
