@@ -9,6 +9,7 @@ const TextAreaInput = ({ text, placeholder, onTextChanged, hasError }) => {
   return (
     <div style={{ display: 'inline' }}>
       <textarea
+        spellcheck="false"
         style={{
           textAlign: "center",
           border: hasError ? '2px solid red' : '1px solid black', // Conditional styling based on error state
