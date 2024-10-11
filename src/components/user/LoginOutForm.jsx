@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useLoading, useSessionUser } from '../GlobalStateContext';
+import { useLoading, useSessionUser } from '../contexts/GlobalStateContext';
 
 const LoginOutForm = () => {
   const { isAuthorized, checkPasswordAsync, logOutAsync } = useSessionUser();

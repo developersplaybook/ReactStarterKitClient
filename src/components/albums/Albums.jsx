@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import AlbumFrame from './AlbumFrame';
 import * as apiClient from "../../helpers/ApiHelpers";
-import { useLoading, useSessionUser } from '../GlobalStateContext';
+import { useLoading, useSessionUser } from '../contexts/GlobalStateContext';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

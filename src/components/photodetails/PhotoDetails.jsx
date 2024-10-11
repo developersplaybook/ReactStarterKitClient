@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import PhotoFrame from '../photos/PhotoFrame';
 import * as apiClient from "../../helpers/ApiHelpers";
-import { useGlobalState } from '../GlobalStateContext';
+import { useGlobalState } from '../contexts/GlobalStateContext';
 
 const PhotoDetails = () => {
   const { albumId: albumIdParam, photoId: photoIdParam, albumCaption: albumCaptionParam } = useParams();

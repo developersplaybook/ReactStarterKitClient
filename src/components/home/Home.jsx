@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import PhotoFrame from "../photos/PhotoFrame";
 import { Animate, AnimateKeyframes } from "react-simple-animate";
-import { useGlobalState } from '../GlobalStateContext';
+import { useGlobalState } from '../contexts/GlobalStateContext';
 
 const Home = () => {
   const [isClient, setIsClient] = useState(false);

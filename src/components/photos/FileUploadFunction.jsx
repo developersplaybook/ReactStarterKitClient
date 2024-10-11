@@ -2,7 +2,7 @@
 import * as apiClient from "../../helpers/ApiHelpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useGlobalState, useGlobalDispatch, useSessionUser } from '../GlobalStateContext';
+import { useGlobalState, useGlobalDispatch, useSessionUser } from '../contexts/GlobalStateContext';
 import './DragAndDrop.css';
 
 // Action types for the reducer

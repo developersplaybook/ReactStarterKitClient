@@ -7,7 +7,7 @@ import Photos from './components/photos/Photos';
 import LoginOutForm from './components/user/LoginOutForm';
 import PhotoDetails from './components/photodetails/PhotoDetails';
 import NotFound from './components/NotFound';
-import { GlobalStateProvider } from './components/GlobalStateContext';
+import { GlobalStateProvider } from './components/contexts/GlobalStateContext';
 
 const App = () => {
   return (

@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faSave, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getPhotosFromServerAsync, deletePhotoOnServerAsync, updatePhotoCaptionOnServerAsync } from './photoAPI';
 import { Link } from 'react-router-dom';
-import { useGlobalState, useSessionUser } from '../GlobalStateContext';
+import { useGlobalState, useSessionUser } from '../contexts/GlobalStateContext';
 
 const Photos = () => {
   const { albumId, albumCaption } = useParams();

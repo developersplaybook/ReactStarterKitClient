@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import TextAreaInput from '../common/TextAreaInput';
-import { useGlobalState, useSessionUser } from '../GlobalStateContext';
+import { useGlobalState, useSessionUser } from '../contexts/GlobalStateContext';
 
 const AlbumFrame = ({
   AlbumID,

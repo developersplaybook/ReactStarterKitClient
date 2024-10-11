@@ -1,5 +1,5 @@
 ﻿import React, { createContext, useContext, useReducer } from 'react';
-import { checkPasswordOnServerAsync, logOutUserAsync } from './user/userAPI';
+import { checkPasswordOnServerAsync, logOutUserAsync } from '../user/userAPI';
 
 // Define initial state and actions
 const initialState = {
