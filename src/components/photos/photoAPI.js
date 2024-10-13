@@ -26,3 +26,8 @@ export const updatePhotoCaptionOnServerAsync = async (photoId, caption, token) =
     throw error; // Rethrow the error to be handled by the caller
   }
 }
+
+export const getAlbumById = async (albumId) => {
+  const response = await apiClient.getHelper('/api/albums/' + albumId);
+  return { data: response };
+}

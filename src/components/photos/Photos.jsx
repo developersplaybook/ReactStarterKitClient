@@ -8,7 +8,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import { Animate } from "react-simple-animate";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faSave, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { getPhotosFromServerAsync, deletePhotoOnServerAsync, updatePhotoCaptionOnServerAsync } from './photoAPI';
+import { getPhotosFromServerAsync, deletePhotoOnServerAsync, updatePhotoCaptionOnServerAsync, getAlbumById } from './photoAPI';
 import { Link } from 'react-router-dom';
 import { useGlobalState, useSessionUser, useLoading } from '../contexts/GlobalStateContext';
 
@@ -35,8 +35,17 @@ const Photos = () => {
       const response = await getPhotosFromServerAsync(albumId, token);
       setPhotos(response.data);
       setCaptions(response.data.map(p => p.caption));
-      const albumCaption = response.data.length > 0 ? response.data[0]?.albumCaption ?? 'No album caption available' : 'No album caption available';
-      setAlbumCaption(albumCaption);
+      if (response.data.length > 0) {
+        const albumCaption = response.data[0]?.albumCaption ?? 'No album caption available';
+        setAlbumCaption(albumCaption);
+      } else {
+        if (albumId > 0) {
+          const response = await getAlbumById(albumId);
+          const albumCaption = response.data?.caption ?? 'No album caption available';
+          setAlbumCaption(albumCaption);
+        }
+      }
+
       setShowDeleteConfirmationModals(response.data.map(() => false));
       setLoading(false);
     };
