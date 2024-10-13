@@ -20,8 +20,8 @@ const App = () => {
               
               {/* Non-exact paths */}
               <Route path="/albums" element={<Albums />} />
-              <Route path="/photos/:albumId/:albumCaption" element={<Photos />} />
-              <Route path="/photodetails/:photoId/:albumId" element={<PhotoDetails />} />
+              <Route path="/photos/:albumId" element={<Photos />} />
+              <Route path="/photodetails/:photoId" element={<PhotoDetails />} />
               <Route path="/user" element={<LoginOutForm />} />
               
               {/* Catch-all route */}

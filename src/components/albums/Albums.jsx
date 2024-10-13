@@ -152,7 +152,7 @@ const Albums = () => {
           <Col md={3} className="hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
             <Row>
               <Col md={12}>
-                <h4>Photo album</h4>
+                <h4>Photo albums</h4>
               </Col>
             </Row>
           </Col>

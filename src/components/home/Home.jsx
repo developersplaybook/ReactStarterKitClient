@@ -12,7 +12,7 @@ const Home = () => {
   let currentTicks = new Date().getTime();
   const imageUrl = `${apiAddress}/RandomHandler/Index/PhotoID=0/Size=M?${currentTicks}`;
   const downloadUrl = `${apiAddress}/RandomHandler/Download/0/Size=M?${currentTicks}`;
-  const detailsRoute = `/photodetails/0/0`;
+  const detailsRoute = `/photodetails/0`;
 
 
   useEffect(() => {

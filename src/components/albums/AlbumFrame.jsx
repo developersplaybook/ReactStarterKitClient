@@ -107,7 +107,7 @@ const AlbumFrame = ({
                 {isAddNewAlbum ? (
                   <img src="/assets/images/default-image-small.png" className="photo_198" style={{ border: '4px solid white', maxHeight: '100%', maxWidth: '100%' }} alt={`Sample from Album`} />
                 ) : (
-                  <Link to={`/photos/${AlbumID}/${caption}`}>
+                  <Link to={`/photos/${AlbumID}`}>
                     <img src={AlbumImageUrl}className="photo_198" style={{ border: '4px solid white', maxHeight: '100%', maxWidth: '100%' }} alt={`Sample from Album`} />
                   </Link>
                 )}
@@ -159,7 +159,7 @@ const AlbumFrame = ({
         </h4>
       ) : (
         <h4>
-          <Link to={`/photos/${AlbumID}/${Caption}`}>{Caption}</Link>
+          <Link to={`/photos/${AlbumID}`}>{Caption}</Link>
         </h4>
       )}
       {isAddNewAlbum ? (

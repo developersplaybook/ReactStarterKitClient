@@ -10,15 +10,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faSave, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getPhotosFromServerAsync, deletePhotoOnServerAsync, updatePhotoCaptionOnServerAsync } from './photoAPI';
 import { Link } from 'react-router-dom';
-import { useGlobalState, useSessionUser } from '../contexts/GlobalStateContext';
+import { useGlobalState, useSessionUser, useLoading } from '../contexts/GlobalStateContext';
 
 const Photos = () => {
-  const { albumId, albumCaption } = useParams();
+  const { albumId } = useParams();
 
   const [photos, setPhotos] = useState([]);
   const [captions, setCaptions] = useState([]);
+  const [albumCaption, setAlbumCaption] = useState('');
   const [showDeleteConfirmationModals, setShowDeleteConfirmationModals] = useState([]);
-  const [status, setStatus] = useState('idle');
+  const { loading, setLoading } = useLoading();
   const [dragAndDropPhotoCaption, setDragAndDropPhotoCaption] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const { apiAddress } = useGlobalState();
@@ -30,12 +31,14 @@ const Photos = () => {
 
   useEffect(() => {
     const fetchPhotos = async () => {
-      setStatus('loading');
-      const response = await getPhotosFromServerAsync(albumId);
+      setLoading(true);
+      const response = await getPhotosFromServerAsync(albumId, token);
       setPhotos(response.data);
       setCaptions(response.data.map(p => p.caption));
+      const albumCaption = response.data.length > 0 ? response.data[0]?.albumCaption ?? 'No album caption available' : 'No album caption available';
+      setAlbumCaption(albumCaption);
       setShowDeleteConfirmationModals(response.data.map(() => false));
-      setStatus('idle');
+      setLoading(false);
     };
     fetchPhotos();
   }, [albumId]);
@@ -51,13 +54,13 @@ const Photos = () => {
   const handleNewCaptionChanged = (value) => setDragAndDropPhotoCaption(value);
 
   const handleDelete = async (index) => {
-    setStatus('loading');
+    setLoading(true);
     await deletePhotoOnServerAsync(photos[index].photoID, token);
     const updatedPhotos = photos.filter((_, idx) => idx !== index);
     setPhotos(updatedPhotos);
     setCaptions(updatedPhotos.map(p => p.caption));
     setShowDeleteConfirmationModals(updatedPhotos.map(() => false));
-    setStatus('idle');
+    setLoading(false);
   };
 
   const toggleDelete = (index) => {
@@ -67,9 +70,9 @@ const Photos = () => {
 
   const handleUpdate = async (index) => {
     setSelectedIndex(index);
-    setStatus('loading');
+    setLoading(true)
     await updatePhotoCaptionOnServerAsync(photos[index].photoID, captions[index], token);
-    setStatus('idle');
+    setLoading(false);
   };
 
   const propsAnimate = {
@@ -106,7 +109,7 @@ const Photos = () => {
         </div>
         <PhotoFrame>
           <Animate delaySeconds={index / 24} play {...propsAnimate}>
-            <Link to={`/photodetails/${photo.photoID}/${albumId}`}>
+            <Link to={`/photodetails/${photo.photoID}`}>
               <img src={imageUrl(photo)} alt="" style={{ border: '4px solid white' }} />
             </Link>
           </Animate>
@@ -122,7 +125,7 @@ const Photos = () => {
             <a onClick={() => handleUpdate(index)} style={{ marginLeft: '10px' }}>
               <FontAwesomeIcon icon={faSave} size={'1x'} />
             </a>
-            <FontAwesomeIcon icon={faSpinner} size={'2x'} spin style={(status === 'loading' && index === selectedIndex) ? { opacity: '1' } : { opacity: '0' }} />
+            <FontAwesomeIcon icon={faSpinner} size={'2x'} spin style={(loading && index === selectedIndex) ? { opacity: '1' } : { opacity: '0' }} />
           </div>
         ) : null}
       </td>
@@ -180,7 +183,7 @@ const Photos = () => {
                 <Col xs lg="6">
                 </Col>
                 <Col md="auto">
-                  <FontAwesomeIcon icon={faSpinner} size={'2x'} spin style={status === 'loading' ? { opacity: '1' } : { opacity: '0' }} />
+                  <FontAwesomeIcon icon={faSpinner} size={'2x'} spin style={loading ? { opacity: '1' } : { opacity: '0' }} />
                 </Col>
               </Row>
               <Col md={12}>
