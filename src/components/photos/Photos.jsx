@@ -146,17 +146,21 @@ const Photos = () => {
     }
   });
 
-  if (photos.length % 5 === 0) {
-    rows.push(<tr key="0_">{cols}</tr>);
-    if (isAuthorized) {
-      cols = [fileUploadElement];
-      rows.push(<tr key="00_">{cols}</tr>);
-    }
+  if (!isAuthorized && photos.length === 0) {
+    rows.push(<tr key="empty"><td><h4>Album empty</h4></td></tr>);
   } else {
-    if (isAuthorized) {
-      cols.push(fileUploadElement);
+    if (photos.length % 5 === 0) {
+      rows.push(<tr key="0_">{cols}</tr>);
+      if (isAuthorized) {
+        cols = [fileUploadElement];
+        rows.push(<tr key="00_">{cols}</tr>);
+      }
+    } else {
+      if (isAuthorized) {
+        cols.push(fileUploadElement);
+      }
+      rows.push(<tr key="0_">{cols}</tr>);
     }
-    rows.push(<tr key="0_">{cols}</tr>);
   }
 
   return (
