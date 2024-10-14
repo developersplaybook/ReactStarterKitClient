@@ -9,7 +9,6 @@ const PhotoDetails = () => {
   const { photoId: photoIdParam} = useParams();
   const [photos, setPhotos] = useState([]);
   const [photoId, setPhotoId] = useState(Number(photoIdParam));
-  const [albumId, setAlbumId] = useState(0);
   const [albumCaption, setAlbumCaption] = useState('');
   const history = useNavigate();
   const { apiAddress } = useGlobalState();
@@ -34,7 +33,6 @@ const PhotoDetails = () => {
         setPhotoId(id);
         const photo = await apiClient.getHelper(`/api/photodetails/${id}`);
         const { albumID, albumCaption } = photo;
-        setAlbumId(albumID);
         setAlbumCaption(albumCaption || 'No caption available');
 
         const photoList = await apiClient.getHelper(`/api/photos/album/${albumID}`);
