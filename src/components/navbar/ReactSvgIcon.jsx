@@ -20,18 +20,22 @@ const ReactSvgIcon = ({ text, icon, iconClass }) => {
           play
           iterationCount="infinite"
           direction="alternate"
-          durationSeconds={10}
-          playState="running"
+          duration={10}
           keyframes={[
             "transform: rotateX(0) rotateY(0) rotateZ(0)",
             "transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg)"
           ]}
           render={({ style }) => {
-            return (<img style={{
-              ...style,
-              width: 50
-            }} src="/assets/images/logo.svg" alt="reactLogo"
-            />);
+            return (
+              <img
+                style={{
+                  ...style,
+                  width: 50
+                }}
+                src="/assets/images/logo.svg"
+                alt="reactLogo"
+              />
+            );
           }}
         />
       </div>
