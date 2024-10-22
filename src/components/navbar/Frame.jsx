@@ -5,7 +5,7 @@ import hamburger from "./../../images/Hamburger.png";
 import ReactSvgIcon from "./ReactSvgIcon";
 
 
-const Frame = (props) => {
+const Frame = ({children}) => {
   const [dayNumber, setDayNumber] = useState(new Date().getDay() % 12);
 
   const getCss = (spriteType, dayNumber) => `transparent url('/assets/images/Bootstrap${spriteType}Composed.jpg') 0 ${-81 * dayNumber}px`;
@@ -112,7 +112,7 @@ const Frame = (props) => {
       </div>
 
       <div id="main-content" className="content">
-        {props.children}
+        {children}
       </div>
 
       <footer className="bg-light text-center text-lg-start" style={{ background: todaysFooterCss, height: '81px', margin: '0' }}>
