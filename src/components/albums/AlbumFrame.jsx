@@ -103,7 +103,7 @@ const AlbumFrame = ({
               <img alt="" src="/assets/images/album-l2.gif" style={{ maxHeight: '100%', maxWidth: '100%', verticalAlign: 'top' }} />
             </td>
             <td colSpan="3" rowSpan="3">
-              <Animate delaySeconds={ItemCount / 4} play={{ start: { opacity: 0 }, end: { opacity: 1 }, durationSeconds: 1 }}>
+              <Animate delay={ItemCount / 4} play={{ start: { opacity: 0 }, end: { opacity: 1 }, duration: 1 }}>
                 {isAddNewAlbum ? (
                   <img src="/assets/images/default-image-small.png" className="photo_198" style={{ border: '4px solid white', maxHeight: '100%', maxWidth: '100%' }} alt={`Sample from Album`} />
                 ) : (

@@ -5,7 +5,6 @@ import { Animate, AnimateKeyframes } from "react-simple-animate";
 import { useGlobalState } from '../contexts/GlobalStateContext';
 
 const Home = () => {
-  const [isClient, setIsClient] = useState(false);
   const [play, setPlay] = useState(false);
 
   const { apiAddress } = useGlobalState();
@@ -16,9 +15,6 @@ const Home = () => {
 
 
   useEffect(() => {
-    setIsClient(typeof window !== "undefined");
-
-    if (isClient) {
       setPlay(true);
 
       // Load the weather widget script
@@ -28,48 +24,51 @@ const Home = () => {
       document.body.appendChild(script);
 
       currentTicks = new Date().getTime();
-    }
 
-  }, [isClient]);
+  }, []);
 
-  const props = {
+  const animationProps = {
     startStyle: { opacity: 0 },
     endStyle: { opacity: 1 },
   };
 
-  const animatedImage = isClient ? (
-    <Animate play={play} durationSeconds={3} {...props}>
+  const animatedImage =
+    <Animate play={play} duration={3} {...animationProps}>
       <AnimateKeyframes
         play={play}
         iterationCount={10}
-        durationSeconds={0.2}
-        keyframes={["transform: rotate(0)", "transform: rotate(360deg)"]}
+        duration={0.2}
+        direction="normal"
+        keyframes={[
+          "transform: rotate(0)",
+          "transform: rotate(360deg)"
+        ]}
       >
         <AnimateKeyframes
           play={play}
           iterationCount="1"
           direction="alternate"
-          durationSeconds={2}
+          duration={2}
           keyframes={[
-            "transform: scaleX(0.05) scaleY(0.05)",
-            "transform: scaleX(0.1) scaleY(0.1)",
-            "transform: scaleX(0.15) scaleY(0.15)",
-            "transform: scaleX(0.2) scaleY(0.2)",
-            "transform: scaleX(0.25) scaleY(0.25)",
-            "transform: scaleX(0.3) scaleY(0.3)",
-            "transform: scaleX(0.35) scaleY(0.35)",
-            "transform: scaleX(0.4) scaleY(0.4)",
-            "transform: scaleX(0.45) scaleY(0.45)",
-            "transform: scaleX(0.5) scaleY(0.5)",
-            "transform: scaleX(0.55) scaleY(0.55)",
-            "transform: scaleX(0.6) scaleY(0.6)",
-            "transform: scaleX(0.65) scaleY(0.65)",
-            "transform: scaleX(0.7) scaleY(0.7)",
-            "transform: scaleX(0.75) scaleY(0.75)",
-            "transform: scaleX(0.8) scaleY(0.8)",
-            "transform: scaleX(0.85) scaleY(0.85)",
+            "transform: scaleX(1) scaleY(1)",  // Start from big size
             "transform: scaleX(0.9) scaleY(0.9)",
-            "transform: scaleX(1) scaleY(1)",
+            "transform: scaleX(0.85) scaleY(0.85)",
+            "transform: scaleX(0.8) scaleY(0.8)",
+            "transform: scaleX(0.75) scaleY(0.75)",
+            "transform: scaleX(0.7) scaleY(0.7)",
+            "transform: scaleX(0.65) scaleY(0.65)",
+            "transform: scaleX(0.6) scaleY(0.6)",
+            "transform: scaleX(0.55) scaleY(0.55)",
+            "transform: scaleX(0.5) scaleY(0.5)",
+            "transform: scaleX(0.45) scaleY(0.45)",
+            "transform: scaleX(0.4) scaleY(0.4)",
+            "transform: scaleX(0.35) scaleY(0.35)",
+            "transform: scaleX(0.3) scaleY(0.3)",
+            "transform: scaleX(0.25) scaleY(0.25)",
+            "transform: scaleX(0.2) scaleY(0.2)",
+            "transform: scaleX(0.15) scaleY(0.15)",
+            "transform: scaleX(0.1) scaleY(0.1)",
+            "transform: scaleX(0.05) scaleY(0.05)"
           ]}
         >
           <PhotoFrame>
@@ -90,22 +89,6 @@ const Home = () => {
         </AnimateKeyframes>
       </AnimateKeyframes>
     </Animate>
-  ) : (
-    <PhotoFrame hidden>
-      <Link to="/">
-        <img
-          src={""}
-          alt=""
-          style={{
-            border: "4px solid white",
-            maxHeight: "100%",
-            maxWidth: "100%",
-            verticalAlign: "middle",
-          }}
-        />
-      </Link>
-    </PhotoFrame>
-  );
 
   return (
     <div className="container">
@@ -154,9 +137,9 @@ const Home = () => {
                 <div id="divContact" style={{ minHeight: "90px" }}>
                   <Animate
                     play={play}
-                    durationSeconds={3}
-                    {...props}
-                    delaySeconds={1}
+                    duration={3}
+                    {...animationProps}
+                    delay={1}
                   >
                     <h4>Contact information</h4>
                     <p>
@@ -191,9 +174,9 @@ const Home = () => {
                         >
                           <Animate
                             play={play}
-                            durationSeconds={3}
-                            delaySeconds={2.1}
-                            {...props}
+                            duration={3}
+                            delay={2.1}
+                            {...animationProps}
                           >
                             <a
                               className="weatherwidget-io"
