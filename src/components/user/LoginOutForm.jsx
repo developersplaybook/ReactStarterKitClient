@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import FormInput from '../common/FormInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +12,7 @@ const LoginOutForm = () => {
   const [password, setPassword] = useState('');
   const [captionText, setCaptionText] = useState('Log in');
   const { loading, setLoading } = useLoading();
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setShowModal(false);
@@ -35,7 +37,7 @@ const LoginOutForm = () => {
       } else {
         const response = await checkPasswordAsync(password);
         if (response === 'PasswordOk') {
-          window.history.back();
+          navigate('/albums');
         } else {
           // Handle case where response is not a token
           console.error('Login failed or invalid response');
@@ -51,12 +53,12 @@ const LoginOutForm = () => {
 };
 
   return (
-    <Modal.Dialog
+    <Modal
       size="sm"
       show={showModal}
       onHide={handleClose}
       aria-labelledby="example-modal-sizes-title-sm"
-      centered
+      animation={false}
     >
       <Modal.Header>
         <Modal.Title>
@@ -90,7 +92,7 @@ const LoginOutForm = () => {
           />
         </Button>
       </Modal.Body>
-    </Modal.Dialog>
+    </Modal>
   );
 };
 
