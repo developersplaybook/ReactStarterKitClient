@@ -10,7 +10,7 @@ const PhotoDetails = () => {
   const [photos, setPhotos] = useState([]);
   const [photoId, setPhotoId] = useState(Number(photoIdParam));
   const [albumCaption, setAlbumCaption] = useState('');
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { apiAddress } = useGlobalState();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const PhotoDetails = () => {
 
   const setPhotoDetailsRoute = (e, photoId) => {
     e.preventDefault();
-    history(getPhotoDetailsRoute(photoId));
+    navigate(getPhotoDetailsRoute(photoId));
     setPhotoId(Number(photoId));
   };
 

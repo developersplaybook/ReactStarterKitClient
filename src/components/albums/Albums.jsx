@@ -9,14 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Albums = () => {
   const [albums, setAlbums] = useState([]);
-  const history = useNavigate();
+  const navigate = useNavigate();
   const {isAuthorized, token} = useSessionUser();
   const { loading, setLoading } = useLoading();
   const [errorStates, setErrorStates] = useState({}); // Object to manage error state for each album
 
   useEffect(() => {
-    history('/albums');
-  }, [history]);
+    navigate('/albums');
+  }, [navigate]);
 
   useEffect(() => {
     getAlbumsWithPhotoCount('api/albums');
