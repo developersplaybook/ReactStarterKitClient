@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import FormInput from '../common/FormInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useLoading, useSessionUser } from '../contexts/GlobalStateContext';
+import { useLoading, useSessionUser, useShowLoginModal } from '../contexts/GlobalStateContext';
 
 const LoginOutForm = () => {
   const { isAuthorized, checkPasswordAsync, logOutAsync } = useSessionUser();
-  const [showModal, setShowModal] = useState(true);
   const [password, setPassword] = useState('');
   const [captionText, setCaptionText] = useState('Log in');
   const { loading, setLoading } = useLoading();
-  const navigate = useNavigate();
+  const { setShowLoginModal } = useShowLoginModal();
 
   const handleClose = () => {
-    setShowModal(false);
     setPassword('');
-    window.history.back();
+    setShowLoginModal(false);
   };
 
   const handlePasswordChanged = (value) => setPassword(value);
@@ -32,12 +29,12 @@ const LoginOutForm = () => {
       if (isAuthorized) {
         const response = await logOutAsync();
         if (response === 'userLoggedOut') {
-          window.history.back();
+          handleClose();
         }
       } else {
         const response = await checkPasswordAsync(password);
         if (response === 'PasswordOk') {
-          navigate('/albums');
+          handleClose();
         } else {
           // Handle case where response is not a token
           console.error('Login failed or invalid response');
@@ -55,7 +52,7 @@ const LoginOutForm = () => {
   return (
     <Modal
       size="sm"
-      show={showModal}
+      show={true}
       onHide={handleClose}
       aria-labelledby="example-modal-sizes-title-sm"
       animation={false}

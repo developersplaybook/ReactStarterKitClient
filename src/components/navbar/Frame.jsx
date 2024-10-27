@@ -3,11 +3,13 @@ import { NavLink } from 'react-router-dom';
 import logo from "./../../images/info.png";
 import hamburger from "./../../images/Hamburger.png";
 import ReactSvgIcon from "./ReactSvgIcon";
+import LoginOutForm from '../user/LoginOutForm'; 
+import { useShowLoginModal } from '../contexts/GlobalStateContext';
 
 
 const Frame = ({children}) => {
   const [dayNumber, setDayNumber] = useState(new Date().getDay() % 12);
-
+  const { showLoginModal, setShowLoginModal } = useShowLoginModal();
   const getCss = (spriteType, dayNumber) => `transparent url('/assets/images/Bootstrap${spriteType}Composed.jpg') 0 ${-81 * dayNumber}px`;
   const [todaysHeaderCss, setTodaysHeaderCss] = useState(getCss('Header', dayNumber));
   const [todaysFooterCss, setTodaysFooterCss] = useState(getCss('Footer', dayNumber));
@@ -63,6 +65,11 @@ const Frame = ({children}) => {
     document.getElementById('main-content').classList.remove('content-blur');
   };
 
+  const openLoginModal = (e) => {
+    e.preventDefault();
+    setShowLoginModal(true);
+  };
+
   return (
     <div>
       <header className="navbar navbar-expand-lg navbar-light bg-light" style={{ background: todaysHeaderCss, height: '81px', margin: '0' }}>
@@ -87,7 +94,7 @@ const Frame = ({children}) => {
                 <a href="https://www.google.com/maps/place/Statue+of+Liberty/@40.688969,-113.0657959,4z/data=!4m10!1m2!2m1!1sstaue+of+liberty!3m6!1s0x89c25090129c363d:0x40c6a5770d25022b!8m2!3d40.6892494!4d-74.0445004!15sChFzdGF0dWUgb2YgbGliZXJ0eVoTIhFzdGF0dWUgb2YgbGliZXJ0eZIBE2hpc3RvcmljYWxfbGFuZG1hcmvgAQA!16zL20vMDcycDg?entry=ttu" target="_blank" rel="noopener noreferrer" className="nav-link no-underline"><span></span>&nbsp;&nbsp;<i className="fas fa-map-marker-alt"></i><span></span></a>
               </li>
               <li className="nav-item">
-                <NavLink to="/user" className="nav-link no-underline"><span></span>&nbsp;<i className="fas fa-user"></i><span></span></NavLink>
+                <NavLink to="/user" className="nav-link no-underline" onClick={openLoginModal}><span></span>&nbsp;<i className="fas fa-user"></i><span></span></NavLink>
               </li>
             </ul>
           </div>
@@ -97,7 +104,7 @@ const Frame = ({children}) => {
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`} ref={sidebarRef}>
         <div className="sidebar-header">
           <a href="https://www.google.com/maps/place/Statue+of+Liberty/@40.688969,-113.0657959,4z/data=!4m10!1m2!2m1!1sstaue+of+liberty!3m6!1s0x89c25090129c363d:0x40c6a5770d25022b!8m2!3d40.6892494!4d-74.0445004!15sChFzdGF0dWUgb2YgbGliZXJ0eVoTIhFzdGF0dWUgb2YgbGliZXJ0eZIBE2hpc3RvcmljYWxfbGFuZG1hcmvgAQA!16zL20vMDcycDg?entry=ttu" target="_blank" rel="noopener noreferrer" className="nav-link no-underline"><span></span>&nbsp;&nbsp;<i className="fas fa-map-marker-alt"></i><span></span></a>
-          <NavLink to="/user" className="nav-link" onClick={closeSidebar}><i className="fas fa-user"></i></NavLink>
+          <NavLink to="/user" className="nav-link" onClick={openLoginModal}><i className="fas fa-user"></i></NavLink>
         </div>
         <div className="nav-list">
           <ul className="navbar-nav">
@@ -120,6 +127,7 @@ const Frame = ({children}) => {
           © 2024 - React Starter Kit. All Rights Reserved.
         </div>
       </footer>
+      {showLoginModal && <LoginOutForm />}
     </div>
   );
 };

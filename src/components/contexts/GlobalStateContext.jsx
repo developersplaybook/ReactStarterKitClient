@@ -7,12 +7,14 @@ const initialState = {
   apiAddress: process.env.REACT_APP_API_ADDRESS || '',
   isAuthorized: false,
   token: null, // To store JWT token
+  showLoginModal: false
 };
 
 const SET_LOADING = 'SET_LOADING';
 const SET_APIADDRESS = 'SET_APIADDRESS';
 const SET_IS_AUTHORIZED = 'SET_IS_AUTHORIZED';
 const SET_TOKEN = 'SET_TOKEN';
+const SET_SHOW_LOGIN_MODAL = 'SET_SHOW_LOGIN_MODAL';
 
 // Create the context and reducer
 const GlobalStateContext = createContext();
@@ -28,6 +30,8 @@ const globalReducer = (state, action) => {
       return { ...state, isAuthorized: action.payload };
     case SET_TOKEN:
       return { ...state, token: action.payload };
+    case SET_SHOW_LOGIN_MODAL:
+        return { ...state, showLoginModal: action.payload };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
@@ -44,6 +48,7 @@ export const GlobalStateProvider = ({ children }) => {
       if (response.data.token) {
         dispatch({ type: SET_IS_AUTHORIZED, payload: true });
         dispatch({ type: SET_TOKEN, payload: response.data.token });
+        dispatch({ type: SET_SHOW_LOGIN_MODAL, payload: false });
         return 'PasswordOk';
       } else {
         alert('Wrong password, please try again.');
@@ -64,6 +69,7 @@ export const GlobalStateProvider = ({ children }) => {
       if (response.data === 'userLoggedOut' || response.data === 'userAlreadyLoggedOut') {
         dispatch({ type: SET_IS_AUTHORIZED, payload: false });
         dispatch({ type: SET_TOKEN, payload: null });
+        dispatch({ type: SET_SHOW_LOGIN_MODAL, payload: false });
         return 'userLoggedOut';
       } else {
         alert(`Unexpected server response: ${response.data}`);
@@ -98,6 +104,16 @@ export const useLoading = () => {
   return {
     loading: state.loading,
     setLoading: (value) => dispatch({ type: SET_LOADING, payload: value })
+  };
+};
+
+export const useShowLoginModal = () => {
+  const state = useGlobalState();
+  const dispatch = useGlobalDispatch();
+
+  return {
+    showLoginModal: state.showLoginModal,
+    setShowLoginModal: (value) => dispatch({ type: SET_SHOW_LOGIN_MODAL, payload: value })
   };
 };
 
