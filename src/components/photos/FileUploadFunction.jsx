@@ -1,8 +1,8 @@
 ﻿import React, { useState, useReducer } from "react";
 import * as apiClient from "../../helpers/ApiHelpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useGlobalState, useGlobalDispatch, useSessionUser } from '../contexts/GlobalStateContext';
+import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useGlobalDispatch, useSessionUser } from '../contexts/GlobalStateContext';
 import './DragAndDrop.css';
 
 // Action types for the reducer
@@ -35,7 +35,6 @@ const reducer = (state, action) => {
 
 const FileUploadFunction = ({ albumId, caption, onPhotoAdded }) => {
   const [image, setImage] = useState({ preview: "", raw: null });
-  const globalState = useGlobalState();
   const globalDispatch = useGlobalDispatch();
   const { token } = useSessionUser();
   const [dropState, dispatch] = useReducer(reducer, initialState);
@@ -154,12 +153,6 @@ const FileUploadFunction = ({ albumId, caption, onPhotoAdded }) => {
               <button onClick={handleUpload}>
                 <FontAwesomeIcon icon={faSave} size='2x' />
               </button>
-              <FontAwesomeIcon
-                icon={faSpinner}
-                size='2x'
-                spin
-                style={{ opacity: globalState.loading ? 1 : 0 }}
-              />
             </>
           )}
         </div>

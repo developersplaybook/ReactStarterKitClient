@@ -6,7 +6,7 @@ const PhotoFrame = ({ defaultImage, children }) => {
       className="photo-frame"
       style={{
         minHeight: "200px",
-        backgroundImage: defaultImage ? 'url("/images/default-image.png")' : undefined,
+        backgroundImage: defaultImage ? 'url("/assets/images/default-image.png")' : undefined,
         backgroundPosition: defaultImage ? 'center' : undefined
       }}>
       <tbody>
