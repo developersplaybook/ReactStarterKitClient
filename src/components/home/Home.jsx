@@ -28,8 +28,8 @@ const Home = () => {
   }, []);
 
   const animationProps = {
-    startStyle: { opacity: 0 },
-    endStyle: { opacity: 1 },
+    start: { opacity: 0 },
+    end: { opacity: 1 },
   };
 
   const animatedImage =
