@@ -23,7 +23,7 @@ const InfoMessage = () => {
         If you have any questions or feedback, feel free to email me&mdash;my contact information is in the book.
       </p>
       <p>Please check:</p>
-      <ul>
+      <ul style={{ listStyleImage: 'none', listStyleType: 'disc', paddingLeft: '20px' }}>
         <li>Authorization with JSON WebToken</li>
         <li>File upload with drag & drop</li>
         <li>Handling of HTTPContext.Session</li>
