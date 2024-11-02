@@ -75,7 +75,7 @@ const Frame = ({children}) => {
       <header className="navbar navbar-expand-lg navbar-light bg-light" style={{ background: todaysHeaderCss, height: '81px', margin: '0' }}>
         <div className="container">
           <a className="navbar-brand pb-5 mb-3" href="/">
-            <ReactSvgIcon text={'React Starter Kit'} icon={logo} iconClass={'logo'} />
+            <ReactSvgIcon text={'React Starter Kit Client'} icon={logo} iconClass={'logo'} />
           </a>
           <button ref={elCollapseButton} className="navbar-toggler" type="button">
             <span className="navbar-toggler-icon"><img src={hamburger} alt="Hamburger Icon" /></span>
