@@ -25,7 +25,7 @@ const InfoMessage = () => {
       <p>Please check:</p>
       <ul style={{ listStyleImage: 'none', listStyleType: 'disc', paddingLeft: '20px' }}>
         <li>Authorization with JSON WebToken</li>
-        <li>File upload with drag & drop</li>
+        <li>File upload with Drag & Drop</li>
         <li>Handling of HTTPContext.Session</li>
         <li>State Management with React Context API</li>
         <li>Storage of passwords and secret keys in ServerAPI</li>
