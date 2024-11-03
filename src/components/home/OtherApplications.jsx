@@ -14,6 +14,7 @@ const OtherApplications = () => {
         Other applications:
       </p>
       <ul style={{ listStyleImage: 'none', listStyleType: 'disc', paddingLeft: '20px' }}>
+        <li>ServerAPI with Angular, Vue and Blazor clients</li>
         <li>WebAPI Data Traffic with NServiceBus</li>
         <li>Data Traffic with Custom Data Queue</li>
         <li>Add Services to WebAPI</li>
