@@ -48,7 +48,7 @@ const Albums = () => {
         setAlbums(prevAlbums => [...prevAlbums, emptyAlbum]);
       }
     } catch (error) {
-        alert('Could not contact server ', error);
+        alert('ServerAPI must be started. Please read the book for info! ', error);
     } finally {
       setLoading(false);
     }

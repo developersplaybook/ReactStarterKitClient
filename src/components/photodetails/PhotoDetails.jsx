@@ -20,7 +20,7 @@ const PhotoDetails = () => {
           const randomPhotoId = await apiClient.getHelper('api/photodetails/savedphotoid');
           getAllPhotosInAlbumByPhotoId(Number(randomPhotoId));
         } catch (error) {
-          alert('Could not contact server ' + error);
+          alert('ServerAPI must be started. Please read the book for info! ' + error);
         }
       } else {
         getAllPhotosInAlbumByPhotoId(id)
@@ -37,7 +37,7 @@ const PhotoDetails = () => {
         const photoList = await apiClient.getHelper(`/api/photos/album/${albumID}`);
         setPhotos([...photoList]);
       } catch (error) {
-        alert('Could not contact server ' + error);
+        alert('ServerAPI must be started. Please read the book for info! ' + error);
       }
     };
 
