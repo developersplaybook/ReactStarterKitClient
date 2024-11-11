@@ -5,7 +5,8 @@ import Home from './components/home/Home';
 import Albums from './components/albums/Albums';
 import Photos from './components/photos/Photos';
 import PhotoDetails from './components/photodetails/PhotoDetails';
-import NotFound from './components/NotFound';
+import NotFound from './components/navbar/NotFound';
+import ExternalRedirect from './components/navbar/ExternalRedirect';
 import { GlobalStateProvider } from './components/contexts/GlobalStateContext';
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
               <Route path="/albums" element={<Albums />} />
               <Route path="/photos/:albumId" element={<Photos />} />
               <Route path="/photodetails/:photoId" element={<PhotoDetails />} />
+              <Route path="/external" element={<ExternalRedirect url="https://www.youtube.com/" />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Frame>
